@@ -74,8 +74,15 @@ jobs:
   deploy:
     needs: build
     uses: ./.github/workflows/reusable.yml
-    with: 
+    with:
       artifact_name: dist-files
+
+  deploy-report:
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Show Deployment Result
+        run: echo "Deployment Result: ${{ needs.deploy.outputs.final-result }}"
 
   report:
     needs: [lint, deploy]
